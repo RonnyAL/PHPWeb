@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Studentregister</title>
+    <link type="text/css" rel="stylesheet" href="templates/style2.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="scripts/search.js"></script>
+</head>
+<body>
+{% include 'nav.html' %}
+
+{% if studenter %}
+    <div class="container">
+        <input type='text' id='search' placeholder='Søk med studentnavn...'>
+        <h2>Studenter</h2>
+        <ul id="student-list">
+            {% for student in studenter %}
+            <li class="student-list-item">
+                <a class="student-item-link" href="?id={{ student.hentId() }}">{{ student.hentEtterNavn() }}, {{ student.hentForNavn() }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% else %}
+
+    {% if student %}
+        <div class="container">
+            <h3>Detaljer om student</h3>
+            <ul>
+                <li>Navn: {{ student.hentNavn() }}</li>
+                <li>Klasse: {{ student.hentKlasse() }}</li>
+                <li>Mobil: {{ student.hentMobil }}</li>
+                <li>E-post: {{ student.hentEpost() }}</li>
+                <br><p><a id ="tilbake" href="#" onclick="">« Tilbake</a></p>
+            </ul>
+        </div>
+    {% endif %}
+
+{% endif %}
+</body>
+<script>
+    //Legger til skript når dokumentet er lastet inn.
+    var search = document.getElementById('search');
+    if(search) {
+        search.onchange = function() {
+            searchStudents();
+        }
+        search.onkeyup = function() {
+            searchStudents();
+        }
+    }
+
+    var tilbake = document.getElementById('tilbake');
+    if(tilbake) {
+        tilbake.onclick = function goBack() {
+            window.history.back();
+        }
+    }
+</script>
+</html>
